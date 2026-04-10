@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PBL Presentation | 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap');
+        body { background-color: #020617; color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
+        .gradient-text { background: linear-gradient(90deg, #60a5fa, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* TIMER */
+        #timerContainer { background:#ffffff; color:#020617; box-shadow:0 10px 40px rgba(0,0,0,0.8); border:3px solid #3b82f6; z-index:1000; }
+        @keyframes flicker { 0%,100%{background-color:#ffffff;} 50%{background-color:#fca5a5;} }
+        .timer-warning { animation:flicker 1s infinite; border:3px solid #ef4444 !important; color:#b91c1c !important; }
+        .timer-stop { background-color:#991b1b !important; color:#ffffff !important; border:3px solid #f87171 !important; animation:none; }
+
+        /* CODE */
+        .code-window { background:#0d1117; border:1px solid rgba(255,255,255,0.08); border-radius:1rem; overflow:hidden; }
+        .code-topbar { background:#161b22; padding:12px 16px; display:flex; align-items:center; gap:8px; border-bottom:1px solid rgba(255,255,255,0.06); }
+        .dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
+        .code-body { font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.75; padding:22px 24px; overflow-x:auto; white-space:pre; }
+        .tab-btn { padding:7px 18px; border-radius:8px; font-size:11px; font-weight:700; font-family:'Plus Jakarta Sans',sans-serif; letter-spacing:0.05em; cursor:pointer; border:1px solid rgba(255,255,255,0.1); color:#94a3b8; background:transparent; transition:all .2s; }
+        .tab-btn.active { background:#3b82f6; color:#fff; border-color:#3b82f6; }
+        .tab-btn:hover:not(.active) { border-color:rgba(255,255,255,0.25); color:#e2e8f0; }
+
+        /* SYNTAX */
+        .kw  { color:#ff7b72; }
+        .fn  { color:#d2a8ff; }
+        .st  { color:#a5d6ff; }
+        .cm  { color:#8b949e; font-style:italic; }
+        .nm  { color:#79c0ff; }
+        .op  { color:#f0883e; }
+        .tx  { color:#e6edf3; }
+        .nu  { color:#ffa657; }
+    </style>
+</head>
+<body onload="startTimer()">
+
+<!-- TIMER -->
+<div id="timerContainer" class="fixed bottom-10 right-10 px-8 py-4 rounded-3xl flex items-center gap-4 transition-all">
+    <i class="fas fa-hourglass-start text-blue-600 text-2xl" id="timerIcon"></i>
+    <span id="displayTime" class="text-4xl font-black font-mono tracking-tighter">00:00</span>
+</div>
+
+<!-- NAV -->
+<nav class="fixed w-full z-50 glass border-b border-slate-800/50 px-8 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-4">
+        <div class="bg-white p-1 rounded-lg flex items-center justify-center shadow-md" style="height:48px;width:48px;overflow:hidden;">
+            <img src="mujlogo.jpg"
+                 alt="MUJ Logo" style="height:100%;width:100%;object-fit:contain;">
+        </div>
+        <div class="flex flex-col text-left">
+            <span class="text-xl font-black text-white leading-none uppercase tracking-tighter">PBL <span class="text-blue-500 italic">2026</span></span>
+            <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Dept. of Computer Science &amp; Engineering</span>
+        </div>
+    </div>
+    <div class="hidden md:flex gap-8 text-[11px] uppercase tracking-widest font-bold opacity-70">
+        <a href="#problem" class="hover:text-blue-400 transition">Problem</a>
+        <a href="#methodology" class="hover:text-blue-400 transition">Methodology</a>
+        <a href="#code" class="hover:text-blue-400 transition">Code</a>
+        <a href="#team" class="hover:text-blue-400 transition">Team</a>
+    </div>
+</nav>
+
+<main class="max-w-6xl mx-auto px-6 pt-48 pb-32 space-y-32">
+
+    <!-- TITLE -->
+    <section class="text-center">
+        <div class="inline-block px-4 py-1 border border-slate-800 rounded-full text-slate-500 text-[10px] font-mono mb-6 uppercase tracking-widest">ID: 2427030821</div>
+        <h1 class="text-6xl md:text-7xl font-extrabold mb-8 uppercase leading-tight">
+            <span class="gradient-text">Hybrid SQL Injection &amp; XSS Detection System</span>
+        </h1>
+        <p class="text-slate-400 max-w-2xl mx-auto italic text-lg leading-relaxed border-l-2 border-blue-500/30 pl-6 text-left">
+            A deterministic hybrid system that detects SQL Injection and Cross-Site Scripting attacks using static analysis, runtime monitoring, and signature-based detection — without machine learning.
+        </p>
+    </section>
+
+    <!-- PROBLEM -->
+    <section id="problem" class="grid md:grid-cols-2 gap-12 items-stretch">
+        <div class="glass p-10 rounded-[2.5rem] flex flex-col justify-center border-l-4 border-blue-600">
+            <h2 class="text-3xl font-extrabold mb-6">Problem Statement</h2>
+            <p class="text-slate-400 leading-relaxed text-justify">
+                SQL Injection and XSS vulnerabilities persist due to improper input validation across web applications. Existing solutions either lack hybrid detection or rely heavily on machine learning, making them opaque, complex, and difficult to audit in production environments.
+            </p>
+        </div>
+        <div class="space-y-6">
+            <div class="glass p-7 rounded-3xl border-r-4 border-blue-500/50">
+                <h3 class="text-blue-400 font-bold text-xs uppercase tracking-widest mb-2">Literature Review</h3>
+                <p class="text-sm text-slate-500 italic">
+                    Existing tools like <span class="text-blue-300 not-italic font-semibold">sqlmap</span> focus on static penetration testing only. WAFs detect patterns but lack real-time proxy-level inspection. No open tool combines static analysis + live HTTP monitoring in a lightweight, rule-based pipeline.
+                </p>
+            </div>
+            <div class="glass p-7 rounded-3xl border-r-4 border-purple-500/50">
+                <h3 class="text-purple-400 font-bold text-xs uppercase tracking-widest mb-2">Research Gap / Innovation</h3>
+                <p class="text-sm text-slate-500 italic">
+                    This system combines <span class="text-purple-300 not-italic font-semibold">mitmproxy runtime interception</span>, regex-based signature detection, and a scoring engine for both SQLi &amp; XSS — deterministic, transparent, zero ML dependency.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- METHODOLOGY -->
+    <section id="methodology" class="space-y-12">
+        <h2 class="text-4xl font-black text-center uppercase tracking-tight">System <span class="text-blue-500">Methodology</span></h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="glass p-8 rounded-3xl text-center">
+                <i class="fas fa-database text-blue-500 text-3xl mb-4"></i>
+                <h3 class="font-bold mb-2 uppercase text-xs tracking-widest">Dataset / Input</h3>
+                <p class="text-sm text-slate-500">HTTP requests (GET / POST / JSON) intercepted via <span class="text-blue-300 font-semibold">mitmproxy</span>, targeting a vulnerable Flask app on port 5000.</p>
+            </div>
+            <div class="glass p-8 rounded-3xl text-center">
+                <i class="fas fa-microchip text-purple-500 text-3xl mb-4"></i>
+                <h3 class="font-bold mb-2 uppercase text-xs tracking-widest">Architecture</h3>
+                <p class="text-sm text-slate-500">
+                    <span class="text-purple-300 font-semibold">addon.py</span> → Scope gate →
+                    <span class="text-blue-300 font-semibold">detector.py</span> (SQLi scoring) +
+                    <span class="text-red-300 font-semibold">xss_detector.py</span> →
+                    <span class="text-green-300 font-semibold">ui.py</span> (Rich alert)
+                </p>
+            </div>
+            <div class="glass p-8 rounded-3xl text-center border-2 border-green-500/20 bg-green-500/5">
+                <i class="fab fa-github text-green-400 text-3xl mb-4"></i>
+                <h3 class="font-bold mb-4 uppercase text-xs tracking-widest text-green-400">Source Code</h3>
+                <a href="https://github.com/2609shivam/Web-Injection-Detection-System" target="_blank"
+                   class="px-5 py-2 bg-green-600 rounded-full text-[10px] font-black hover:bg-green-500 transition shadow-lg shadow-green-900/40 inline-flex items-center gap-2">
+                    <i class="fab fa-github"></i> VIEW ON GITHUB
+                </a>
+                <p class="text-[10px] text-slate-600 mt-3 font-mono">2609shivam/<br>Web-Injection-Detection-System</p>
+            </div>
+        </div>
+
+        <!-- Pipeline -->
+        <div class="glass p-8 rounded-3xl">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-8 text-center">Detection Pipeline</h3>
+            <div class="flex flex-wrap justify-center items-center gap-3 text-xs font-mono">
+                <div class="px-4 py-3 bg-blue-500/10 border border-blue-500/30 rounded-xl text-blue-300 text-center min-w-[90px]">
+                    <div class="text-xl mb-1">🌐</div>Browser<br>Request
+                </div>
+                <i class="fas fa-arrow-right text-slate-700 text-sm"></i>
+                <div class="px-4 py-3 bg-purple-500/10 border border-purple-500/30 rounded-xl text-purple-300 text-center min-w-[90px]">
+                    <div class="text-xl mb-1">🔌</div>mitmproxy<br>Intercept
+                </div>
+                <i class="fas fa-arrow-right text-slate-700 text-sm"></i>
+                <div class="px-4 py-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl text-yellow-300 text-center min-w-[100px]">
+                    <div class="text-xl mb-1">🎯</div>Scope Gate<br>port/path/method
+                </div>
+                <i class="fas fa-arrow-right text-slate-700 text-sm"></i>
+                <div class="flex flex-col gap-2">
+                    <div class="px-4 py-2 bg-red-500/10 border border-red-500/30 rounded-xl text-red-300 text-center">⚡ SQLi Scorer</div>
+                    <div class="px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-xl text-orange-300 text-center">⚡ XSS Regex</div>
+                </div>
+                <i class="fas fa-arrow-right text-slate-700 text-sm"></i>
+                <div class="px-4 py-3 bg-green-500/10 border border-green-500/30 rounded-xl text-green-300 text-center min-w-[90px]">
+                    <div class="text-xl mb-1">🚨</div>Rich Console<br>Alert
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CODE WALKTHROUGH -->
+    <section id="code" class="space-y-8">
+        <h2 class="text-4xl font-black text-center uppercase tracking-tight">Code <span class="text-blue-500">Walkthrough</span></h2>
+
+        <div class="flex flex-wrap gap-3 justify-center">
+            <button class="tab-btn active" onclick="showTab('addon', this)">addon.py</button>
+            <button class="tab-btn" onclick="showTab('detector', this)">detector.py</button>
+            <button class="tab-btn" onclick="showTab('xss', this)">xss_detector.py</button>
+            <button class="tab-btn" onclick="showTab('app', this)">app.py</button>
+            <button class="tab-btn" onclick="showTab('ui', this)">ui.py</button>
+        </div>
+
+        <!-- addon.py -->
+        <div id="tab-addon" class="code-tab">
+            <div class="code-window">
+                <div class="code-topbar">
+                    <span class="dot" style="background:#ff5f57"></span>
+                    <span class="dot" style="background:#febc2e"></span>
+                    <span class="dot" style="background:#28c840"></span>
+                    <span class="text-slate-500 text-xs ml-3 font-mono">addon.py — mitmproxy entry point, routes all detections</span>
+                </div>
+                <div class="code-body"><span class="kw">from</span> <span class="nm">xss_detector</span> <span class="kw">import</span> <span class="fn">detect_xss</span>
+<span class="kw">from</span> <span class="nm">mitmproxy</span> <span class="kw">import</span> <span class="nm">http</span>
+<span class="kw">import</span> <span class="nm">json</span>
+<span class="kw">from</span> <span class="nm">detector</span> <span class="kw">import</span> <span class="fn">detect_payload</span>, <span class="fn">is_request_in_scope</span>
+<span class="kw">from</span> <span class="nm">ui</span>       <span class="kw">import</span> <span class="fn">show_request</span>, <span class="fn">show_detection</span>
+
+<span class="kw">class</span> <span class="fn">SQLiAddon</span>:
+
+    <span class="kw">def</span> <span class="fn">request</span>(<span class="tx">self</span>, <span class="tx">flow</span>: <span class="nm">http.HTTPFlow</span>):
+        <span class="cm"># ── Scope gate: only inspect targeted endpoints ───────────</span>
+        has_body = <span class="fn">bool</span>(
+            flow.request.query            <span class="kw">or</span>
+            flow.request.urlencoded_form  <span class="kw">or</span>
+            <span class="st">"application/json"</span> <span class="kw">in</span> flow.request.headers.<span class="fn">get</span>(<span class="st">"Content-Type"</span>, <span class="st">""</span>)
+        )
+        <span class="kw">if not</span> <span class="fn">is_request_in_scope</span>(port=flow.request.port,
+                                    path=flow.request.path,
+                                    method=flow.request.method,
+                                    has_body=has_body):
+            <span class="kw">return</span>
+
+        <span class="fn">show_request</span>(flow)
+
+        <span class="cm"># ── GET params: run both XSS + SQLi ───────────────────────</span>
+        <span class="kw">for</span> k, v <span class="kw">in</span> flow.request.query.<span class="fn">items</span>():
+            xss_risk,  xss_reason  = <span class="fn">detect_xss</span>(v)
+            sqli_risk, sqli_reason = <span class="fn">detect_payload</span>(v)
+            <span class="kw">if</span> xss_risk:  <span class="fn">show_detection</span>(flow, <span class="st">"GET"</span>, k, v, xss_reason,  xss_risk,  <span class="st">"XSS"</span>)
+            <span class="kw">if</span> sqli_risk: <span class="fn">show_detection</span>(flow, <span class="st">"GET"</span>, k, v, sqli_reason, sqli_risk, <span class="st">"SQLi"</span>)
+
+        <span class="cm"># ── POST form data ─────────────────────────────────────────</span>
+        <span class="kw">if</span> flow.request.urlencoded_form:
+            <span class="kw">for</span> k, v <span class="kw">in</span> flow.request.urlencoded_form.<span class="fn">items</span>():
+                xss_risk,  xss_reason  = <span class="fn">detect_xss</span>(v)
+                sqli_risk, sqli_reason = <span class="fn">detect_payload</span>(v)
+                <span class="kw">if</span> xss_risk:  <span class="fn">show_detection</span>(flow, <span class="st">"POST"</span>, k, v, xss_reason,  xss_risk,  <span class="st">"XSS"</span>)
+                <span class="kw">if</span> sqli_risk: <span class="fn">show_detection</span>(flow, <span class="st">"POST"</span>, k, v, sqli_reason, sqli_risk, <span class="st">"SQLi"</span>)
+
+<span class="nm">addons</span> = [<span class="fn">SQLiAddon</span>()]</div>
+            </div>
+        </div>
+
+        <!-- detector.py -->
+        <div id="tab-detector" class="code-tab hidden">
+            <div class="code-window">
+                <div class="code-topbar">
+                    <span class="dot" style="background:#ff5f57"></span>
+                    <span class="dot" style="background:#febc2e"></span>
+                    <span class="dot" style="background:#28c840"></span>
+                    <span class="text-slate-500 text-xs ml-3 font-mono">detector.py — SQLi scoring + scope gate</span>
+                </div>
+                <div class="code-body"><span class="kw">import</span> <span class="nm">re</span>
+
+<span class="cm"># Target scope ─────────────────────────────────────────────────</span>
+<span class="nm">TARGET_PORTS</span>        = {<span class="nu">5000</span>}
+<span class="nm">TARGET_PATH_PREFIXES</span> = (<span class="st">"/login"</span>, <span class="st">"/search"</span>, <span class="st">"/register"</span>, <span class="st">"/api"</span>)
+<span class="nm">ALLOWED_METHODS</span>     = {<span class="st">"GET"</span>, <span class="st">"POST"</span>}
+
+<span class="cm"># Strong regex patterns — immediate HIGH flag ───────────────────</span>
+<span class="nm">STRONG_SQLI_PATTERNS</span> = [
+    <span class="st">r"'\s*(or|and)\s+\d+=\d+"</span>,      <span class="cm"># ' OR 1=1</span>
+    <span class="st">r"'\s*(or|and)\s+'?\w+'?='?\w+'?"</span>, <span class="cm"># ' OR 'a'='a</span>
+    <span class="st">r"union\s+select"</span>,               <span class="cm"># UNION SELECT</span>
+    <span class="st">r"sleep\s*\(\s*\d+\s*\)"</span>,        <span class="cm"># time-based blind</span>
+    <span class="st">r"waitfor\s+delay"</span>,              <span class="cm"># MSSQL time-based</span>
+]
+
+<span class="kw">def</span> <span class="fn">calculate_score</span>(<span class="tx">v</span>: <span class="nm">str</span>) -> <span class="nm">int</span>:
+    score  = v.<span class="fn">count</span>(<span class="st">"'"</span>) * <span class="nu">2</span> + v.<span class="fn">count</span>(<span class="st">'"'</span>) * <span class="nu">2</span>
+    score += <span class="fn">sum</span>(<span class="nu">2</span> <span class="kw">for</span> k <span class="kw">in</span> SQL_KEYWORDS <span class="kw">if</span> re.<span class="fn">search</span>(<span class="st">rf"\b{k}\b"</span>, v))
+    <span class="kw">if</span> <span class="st">"--"</span> <span class="kw">in</span> v <span class="kw">or</span> <span class="st">"/*"</span> <span class="kw">in</span> v: score += <span class="nu">3</span>
+    <span class="kw">return</span> score
+
+<span class="kw">def</span> <span class="fn">detect_payload</span>(<span class="tx">value</span>: <span class="nm">str</span>):
+    v = value.<span class="fn">lower</span>().<span class="fn">strip</span>()
+    <span class="kw">for</span> p <span class="kw">in</span> <span class="nm">STRONG_SQLI_PATTERNS</span>:           <span class="cm"># exact match → HIGH</span>
+        <span class="kw">if</span> re.<span class="fn">search</span>(p, v):
+            <span class="kw">return</span> <span class="st">"HIGH"</span>, <span class="st">"Strong SQL injection pattern"</span>
+    score = <span class="fn">calculate_score</span>(v)               <span class="cm"># scoring fallback</span>
+    <span class="kw">if</span>   score >= <span class="nu">5</span>: <span class="kw">return</span> <span class="st">"HIGH"</span>,   <span class="st">"High-confidence SQLi"</span>
+    <span class="kw">elif</span> score >= <span class="nu">3</span>: <span class="kw">return</span> <span class="st">"MEDIUM"</span>, <span class="st">"Suspicious SQL-like structure"</span>
+    <span class="kw">elif</span> score >= <span class="nu">2</span>: <span class="kw">return</span> <span class="st">"LOW"</span>,    <span class="st">"Weak SQL indicators"</span>
+    <span class="kw">return None</span>, <span class="kw">None</span></div>
+            </div>
+        </div>
+
+        <!-- xss_detector.py -->
+        <div id="tab-xss" class="code-tab hidden">
+            <div class="code-window">
+                <div class="code-topbar">
+                    <span class="dot" style="background:#ff5f57"></span>
+                    <span class="dot" style="background:#febc2e"></span>
+                    <span class="dot" style="background:#28c840"></span>
+                    <span class="text-slate-500 text-xs ml-3 font-mono">xss_detector.py — XSS regex engine</span>
+                </div>
+                <div class="code-body"><span class="kw">import</span> <span class="nm">re</span>
+
+<span class="nm">XSS_PATTERNS</span> = [
+    <span class="st">r"&lt;script.*?&gt;.*?&lt;/script&gt;"</span>,  <span class="cm"># classic &lt;script&gt; tag</span>
+    <span class="st">r"on\w+\s*="</span>,                   <span class="cm"># event handlers: onerror= onclick= …</span>
+    <span class="st">r"javascript:"</span>,                 <span class="cm"># JS URI scheme</span>
+    <span class="st">r"&lt;.*?on\w+=.*?&gt;"</span>,              <span class="cm"># inline event inside any tag</span>
+    <span class="st">r"&lt;img.*?src=.*?&gt;"</span>,             <span class="cm"># img src injection</span>
+]
+
+<span class="kw">def</span> <span class="fn">detect_xss</span>(<span class="tx">value</span>: <span class="nm">str</span>):
+    <span class="kw">if not</span> value:
+        <span class="kw">return None</span>, <span class="kw">None</span>
+
+    v = value.<span class="fn">lower</span>().<span class="fn">strip</span>()
+
+    <span class="kw">for</span> pattern <span class="kw">in</span> <span class="nm">XSS_PATTERNS</span>:
+        <span class="kw">if</span> re.<span class="fn">search</span>(pattern, v):
+            <span class="kw">return</span> <span class="st">"HIGH"</span>, <span class="st">"XSS payload detected"</span>
+
+    <span class="cm"># Weaker heuristic: raw angle brackets present</span>
+    <span class="kw">if</span> <span class="st">"&lt;"</span> <span class="kw">in</span> v <span class="kw">and</span> <span class="st">"&gt;"</span> <span class="kw">in</span> v:
+        <span class="kw">return</span> <span class="st">"MEDIUM"</span>, <span class="st">"Possible HTML injection"</span>
+
+    <span class="kw">return None</span>, <span class="kw">None</span></div>
+            </div>
+        </div>
+
+        <!-- app.py -->
+        <div id="tab-app" class="code-tab hidden">
+            <div class="code-window">
+                <div class="code-topbar">
+                    <span class="dot" style="background:#ff5f57"></span>
+                    <span class="dot" style="background:#febc2e"></span>
+                    <span class="dot" style="background:#28c840"></span>
+                    <span class="text-slate-500 text-xs ml-3 font-mono">app.py — intentionally vulnerable Flask target application</span>
+                </div>
+                <div class="code-body"><span class="kw">from</span> <span class="nm">flask</span>      <span class="kw">import</span> <span class="nm">Flask</span>, <span class="fn">render_template</span>, <span class="fn">request</span>
+<span class="kw">from</span> <span class="nm">markupsafe</span> <span class="kw">import</span> <span class="fn">escape</span>, <span class="fn">Markup</span>
+<span class="kw">import</span> <span class="nm">sqlite3</span>
+
+<span class="nm">app</span>        = <span class="fn">Flask</span>(<span class="nm">__name__</span>)
+<span class="nm">ALLOW_XSS</span>  = <span class="kw">True</span>   <span class="cm"># toggle XSS vulnerability</span>
+<span class="nm">ALLOW_SQLI</span> = <span class="kw">True</span>   <span class="cm"># toggle SQLi vulnerability</span>
+
+<span class="op">@app.route</span>(<span class="st">"/login"</span>, methods=[<span class="st">"POST"</span>])
+<span class="kw">def</span> <span class="fn">login</span>():
+    username = request.form.<span class="fn">get</span>(<span class="st">"username"</span>)
+    password = request.form.<span class="fn">get</span>(<span class="st">"password"</span>)
+    conn = sqlite3.<span class="fn">connect</span>(<span class="st">"database.db"</span>)
+    <span class="kw">if</span> <span class="nm">ALLOW_SQLI</span>:
+        <span class="cm"># ❌ Vulnerable — raw string interpolation</span>
+        query = <span class="st">f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"</span>
+        conn.cursor().<span class="fn">execute</span>(query)
+    <span class="kw">else</span>:
+        <span class="cm"># ✅ Safe — parameterised query</span>
+        conn.cursor().<span class="fn">execute</span>(<span class="st">"SELECT * FROM users WHERE username=? AND password=?"</span>,
+                               (username, password))
+
+<span class="op">@app.route</span>(<span class="st">"/search"</span>)
+<span class="kw">def</span> <span class="fn">search</span>():
+    q = request.args.<span class="fn">get</span>(<span class="st">"q"</span>)
+    <span class="kw">if</span> <span class="nm">ALLOW_XSS</span>:
+        output = <span class="st">f"&lt;div&gt;{Markup(q)}&lt;/div&gt;"</span>  <span class="cm"># ❌ Unescaped — XSS possible</span>
+    <span class="kw">else</span>:
+        output = <span class="fn">escape</span>(q)                   <span class="cm"># ✅ Safe</span>
+
+<span class="kw">if</span> <span class="nm">__name__</span> == <span class="st">"__main__"</span>:
+    app.<span class="fn">run</span>(host=<span class="st">"0.0.0.0"</span>, port=<span class="nu">5000</span>, debug=<span class="kw">True</span>)</div>
+            </div>
+        </div>
+
+        <!-- ui.py -->
+        <div id="tab-ui" class="code-tab hidden">
+            <div class="code-window">
+                <div class="code-topbar">
+                    <span class="dot" style="background:#ff5f57"></span>
+                    <span class="dot" style="background:#febc2e"></span>
+                    <span class="dot" style="background:#28c840"></span>
+                    <span class="text-slate-500 text-xs ml-3 font-mono">ui.py — Rich console alert renderer</span>
+                </div>
+                <div class="code-body"><span class="kw">from</span> <span class="nm">rich.console</span> <span class="kw">import</span> <span class="fn">Console</span>
+<span class="kw">from</span> <span class="nm">rich.panel</span>   <span class="kw">import</span> <span class="fn">Panel</span>
+
+<span class="nm">console</span> = <span class="fn">Console</span>()
+
+<span class="kw">def</span> <span class="fn">show_request</span>(<span class="tx">flow</span>):
+    console.<span class="fn">print</span>(<span class="st">f"[cyan]{flow.request.method}[/cyan] {flow.request.path}"</span>)
+
+<span class="kw">def</span> <span class="fn">show_detection</span>(<span class="tx">flow</span>, <span class="tx">location</span>, <span class="tx">param</span>, <span class="tx">payload</span>, <span class="tx">reason</span>, <span class="tx">risk</span>, <span class="tx">attack_type</span>=<span class="st">"SQLi"</span>):
+    color = {<span class="st">"LOW"</span>: <span class="st">"yellow"</span>, <span class="st">"MEDIUM"</span>: <span class="st">"orange3"</span>, <span class="st">"HIGH"</span>: <span class="st">"red"</span>}.<span class="fn">get</span>(risk, <span class="st">"white"</span>)
+
+    body = <span class="st">f"""
+[bold]Method:[/bold]    {flow.request.method}
+[bold]URL:[/bold]       {flow.request.pretty_url}
+[bold]Location:[/bold]  {location}
+[bold]Parameter:[/bold] {param}
+[bold]Payload:[/bold]   {payload}
+[bold]Reason:[/bold]    {reason}
+[bold]Risk:[/bold]      {risk}
+"""</span>
+    console.<span class="fn">print</span>(
+        <span class="fn">Panel</span>(body.<span class="fn">strip</span>(),
+               title=<span class="st">f"🚨 {attack_type} Detected"</span>,
+               border_style=color)
+    )</div>
+            </div>
+        </div>
+
+        <!-- Observations row -->
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="glass p-6 rounded-2xl border-t-2 border-green-500/40">
+                <div class="text-2xl mb-2">✅</div>
+                <h4 class="text-green-400 font-bold text-xs uppercase tracking-widest mb-2">SQLi Detection</h4>
+                <p class="text-slate-500 text-sm">Payloads like <code class="text-blue-300 bg-white/5 px-1 rounded text-xs">' OR 1=1 --</code> and <code class="text-blue-300 bg-white/5 px-1 rounded text-xs">UNION SELECT</code> flagged HIGH instantly via strong-pattern match.</p>
+            </div>
+            <div class="glass p-6 rounded-2xl border-t-2 border-red-500/40">
+                <div class="text-2xl mb-2">✅</div>
+                <h4 class="text-red-400 font-bold text-xs uppercase tracking-widest mb-2">XSS Detection</h4>
+                <p class="text-slate-500 text-sm"><code class="text-red-300 bg-white/5 px-1 rounded text-xs">&lt;script&gt;</code> tags and <code class="text-red-300 bg-white/5 px-1 rounded text-xs">onerror=</code> events caught with zero false negatives on test payloads.</p>
+            </div>
+            <div class="glass p-6 rounded-2xl border-t-2 border-purple-500/40">
+                <div class="text-2xl mb-2">⚡</div>
+                <h4 class="text-purple-400 font-bold text-xs uppercase tracking-widest mb-2">Real-Time</h4>
+                <p class="text-slate-500 text-sm">mitmproxy intercepts live HTTP traffic. Detection runs inline — no log parsing, no batch delay, validated via custom payloads on a Flask app.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team" class="text-center pt-10 border-t border-slate-900">
+        <h2 class="text-[10px] font-black text-slate-600 uppercase tracking-[0.5em] mb-12">Academic Credits</h2>
+        <div class="flex flex-wrap justify-center gap-10">
+            <div class="glass px-12 py-8 rounded-[2rem] border-b-4 border-blue-600">
+                <p class="text-[9px] font-bold text-blue-500 mb-2 uppercase tracking-widest">Project Guide</p>
+                <p class="font-black text-xl text-slate-100">Dr. Rajat Goel</p>
+            </div>
+            <div class="glass px-12 py-8 rounded-[2rem] border-b-4 border-slate-700">
+                <p class="text-[9px] font-bold text-slate-400 mb-2 uppercase tracking-widest">Student</p>
+                <p class="font-black text-xl text-slate-100">Shivam Gupta</p>
+                <p class="text-[10px] text-slate-500 mt-1">2427030821</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="py-12 text-center bg-black/40 border-t border-slate-900">
+    <p class="text-slate-600 text-[10px] font-bold tracking-[0.3em] uppercase mb-2">Manipal University Jaipur</p>
+    <p class="text-slate-500 text-[9px] font-medium tracking-[0.2em] uppercase opacity-50">Department of Computer Science &amp; Engineering • 2026</p>
+</footer>
+
+<script>
+    // TIMER
+    let sec = 0, timer = null;
+    function startTimer() {
+        timer = setInterval(() => {
+            sec++;
+            let m = Math.floor(sec / 60), s = sec % 60;
+            document.getElementById('displayTime').innerText =
+                `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            if (sec >= 480 && sec < 600) {
+                document.getElementById('timerContainer').classList.add('timer-warning');
+                document.getElementById('timerIcon').className = 'fas fa-hourglass-half text-2xl';
+            } else if (sec >= 600) {
+                clearInterval(timer);
+                document.getElementById('timerContainer').classList.remove('timer-warning');
+                document.getElementById('timerContainer').classList.add('timer-stop');
+                document.getElementById('displayTime').innerText = "10:00";
+                document.getElementById('timerIcon').className = 'fas fa-hourglass-end text-2xl';
+            }
+        }, 1000);
+    }
+
+    // CODE TABS
+    function showTab(name, btn) {
+        document.querySelectorAll('.code-tab').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById('tab-' + name).classList.remove('hidden');
+        btn.classList.add('active');
+    }
+</script>
+</body>
+</html>
